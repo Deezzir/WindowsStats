@@ -20,6 +20,11 @@ $time_dt = $cur_time - $start_time
 $uptime = $time_dt.TotalHours
 $cost = $uptime * $cost_per_hour * 1.13
 
+# Get the process using the Most RAM
+$process = Get-Process | Sort-Object -Property WS -Descending | Select-Object -First 1
+$process_name = $process.ProcessName
+$process_id = $process.Id
+
 # Construct the message
 $message = @"
 CPU Utilization: $($cpu_utilization.ToString("F2"))%
@@ -27,6 +32,8 @@ RAM Utilization: $($ram_utilization.ToString("F3"))%
 RAM used: $($mb_used.ToString("F0")) MB ($($gb_used.ToString("F0")) / $($gb_total.ToString("F0")) GB)
 Uptime: $($uptime.ToString("F1")) hours
 Cost: ~$($cost.ToString("F2"))$ USD
+
+Process using the most RAM: '$($process_name)' (ID: $($process_id))
 "@
 
 # Send the message to the Telegram bot
