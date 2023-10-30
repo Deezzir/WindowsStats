@@ -5,8 +5,7 @@ $cost_per_hour = 35.226
 $start_time = Get-Date -Year 2023 -Month 10 -Day 27 -Hour 0 -Minute 0 -Second 0
 
 # Get CPU Utilization
-$output = (Get-CimInstance -ClassName win32_processor | Measure-Object -Property LoadPercentage -Average)
-$cpu_utilization = $output.Average
+$cpu_utilization = (Get-CimInstance -ClassName win32_processor | Measure-Object -Property LoadPercentage -Average).Average
 
 # Get RAM Utilization
 $ram_utilization = 100 - ((Get-WmiObject win32_operatingsystem).FreePhysicalMemory / (Get-WmiObject win32_operatingsystem).TotalVisibleMemorySize) * 100
